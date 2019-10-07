@@ -32,15 +32,17 @@ public class ProdutoDao {
 		return produto;
 	}
 
-	public List<Produto> getProdutos(String nome, Integer categoriaId, Integer lojaId) {
+	public List<Produto> getProdutos(String nome, Integer categoriaId,
+			Integer lojaId) {
 
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-		CriteriaQuery<Produto> query = criteriaBuilder.createQuery(Produto.class);
+		CriteriaQuery<Produto> query = criteriaBuilder
+				.createQuery(Produto.class);
 		Root<Produto> root = query.from(Produto.class);
 
-		Path<String> nomePath = root.<String>get("nome");
-		Path<Integer> categoriaPath = root.join("categorias").<Integer>get("id");
-		Path<Integer> lojaPath = root.<Loja>get("loja").<Integer>get("id");
+		Path<String> nomePath = root.<String> get("nome");
+		Path<Integer> categoriaPath = root.join("categorias").<Integer> get("id");
+		Path<Integer> lojaPath = root.<Loja> get("loja").<Integer> get("id");
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
@@ -50,7 +52,8 @@ public class ProdutoDao {
 		}
 
 		if (categoriaId != null) {
-			Predicate categoriaIgual = criteriaBuilder.equal(categoriaPath, categoriaId);
+			Predicate categoriaIgual = criteriaBuilder.equal(categoriaPath,
+					categoriaId);
 			predicates.add(categoriaIgual);
 		}
 
@@ -62,7 +65,8 @@ public class ProdutoDao {
 		query.where((Predicate[]) predicates.toArray(new Predicate[0]));
 
 		TypedQuery<Produto> typedQuery = em.createQuery(query);
-		typedQuery.setHint("org.hibernate.cacheable", true);
+		typedQuery.setHint("org.hibernate.cacheable", "true");
+
 		return typedQuery.getResultList();
 
 	}

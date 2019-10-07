@@ -19,7 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Produto {
 
 	@Id
@@ -30,9 +30,6 @@ public class Produto {
 	@NotEmpty
 	private String linkDaFoto;
 
-	@Version
-	private int versao;
-
 	@NotEmpty
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
@@ -40,8 +37,11 @@ public class Produto {
 	@Min(20)
 	private double preco;
 
+	@Version
+	private Integer versao;
+
 	@ManyToMany
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Categoria> categorias = new ArrayList<>();
 
 	@Valid
@@ -110,11 +110,11 @@ public class Produto {
 		this.categorias = categorias;
 	}
 
-	public int getVersao() {
+	public Integer getVersao() {
 		return versao;
 	}
 
-	public void setVersao(int versao) {
+	public void setVersao(Integer versao) {
 		this.versao = versao;
 	}
 

@@ -9,30 +9,32 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Loja {
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+public class Categoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-
+	private int id;
 	private String nome;
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
+	
+	public Categoria(String nome) {
 		this.nome = nome;
+	}
+	
+	public Categoria() { 
+		
 	}
 
 	public Integer getId() {
 		return id;
 	}
-
-	// SpringMVC usa pra passar o id
-	@Deprecated
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public String getNome() {
+		return nome;
+	}
+
 }

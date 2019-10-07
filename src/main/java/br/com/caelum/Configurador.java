@@ -30,58 +30,48 @@ import br.com.matheus.model.Produto;
 @ComponentScan("br.com.matheus")
 @EnableTransactionManagement
 public class Configurador extends WebMvcConfigurerAdapter {
-
+	
 	@Bean
 	@Scope("request")
 	public List<Produto> produtos(ProdutoDao produtoDao) {
 		List<Produto> produtos = produtoDao.getProdutos();
-
+		
 		return produtos;
 	}
-
+	
 	@Bean
-	public OpenEntityManagerInViewInterceptor getOpenEntityManagerInViewInterceptor() {
-		return new OpenEntityManagerInViewInterceptor();
-	}
-
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addWebRequestInterceptor(getOpenEntityManagerInViewInterceptor());
-	}
-
-	@Bean
-	public List<Categoria> categorias(CategoriaDao categoriaDao) {
+	public List<Categoria> categorias(CategoriaDao categoriaDao) { 
 		List<Categoria> categorias = categoriaDao.getCategorias();
-
+		
 		return categorias;
 	}
-
+	
 	@Bean
-	public List<Loja> lojas(LojaDao lojaDao) {
+	public List<Loja> lojas(LojaDao lojaDao) { 
 		List<Loja> lojas = lojaDao.getLojas();
-
+		
 		return lojas;
 	}
-
+	
 	@Bean
-	public MessageSource messageSource() {
+	public MessageSource messageSource() { 
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-
+		
 		messageSource.setBasename("/WEB-INF/messages");
 		messageSource.setCacheSeconds(1);
 		messageSource.setDefaultEncoding("ISO-8859-1");
-
+		
 		return messageSource;
-
+		
 	}
-
-	@Bean
+	
+	@Bean 
 	public ViewResolver getViewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
-
+		
 		viewResolver.setExposeContextBeansAsAttributes(true);
 
 		return viewResolver;
@@ -95,11 +85,21 @@ public class Configurador extends WebMvcConfigurerAdapter {
 			public Categoria convert(String categoriaId) {
 				Categoria categoria = new Categoria();
 				categoria.setId(Integer.valueOf(categoriaId));
-
+				
 				return categoria;
 			}
-
+			
 		});
 	}
-
+	
+	@Bean
+	public OpenEntityManagerInViewInterceptor getOpenEntityManagerInViewInterceptor() {
+		return new OpenEntityManagerInViewInterceptor();
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addWebRequestInterceptor(getOpenEntityManagerInViewInterceptor());
+	}
+	
 }
